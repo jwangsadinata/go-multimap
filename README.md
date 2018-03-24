@@ -1,4 +1,4 @@
-[![GoDoc](https://godoc.org/github.com/jwangsadinata/go-multimap?status.svg)](https://godoc.org/github.com/jwangsadinata/go-multimap) [![Build Status](https://travis-ci.org/jwangsadinata/go-multimap.svg)](https://travis-ci.org/jwangsadinata/go-multimap) [![Go Report Card](https://goreportcard.com/badge/github.com/jwangsadinata/go-multimap)](https://goreportcard.com/report/github.com/jwangsadinata/go-multimap) [![Coverage Status](https://coveralls.io/repos/github/jwangsadinata/go-multimap/badge.svg?branch=master)](https://coveralls.io/github/jwangsadinata/go-multimap?branch=master&service=github) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jwangsadinata/go-multimap/blob/master/LICENSE)
+[![GoDoc](https://godoc.org/github.com/jwangsadinata/go-multimap?status.svg)](https://godoc.org/github.com/jwangsadinata/go-multimap) [![Build Status](https://travis-ci.org/jwangsadinata/go-multimap.svg)](https://travis-ci.org/jwangsadinata/go-multimap) [![Go Report Card](https://goreportcard.com/badge/github.com/jwangsadinata/go-multimap)](https://goreportcard.com/report/github.com/jwangsadinata/go-multimap) [![Coverage Status](https://coveralls.io/repos/github/jwangsadinata/go-multimap/badge.svg?branch=master&service=github)](https://coveralls.io/github/jwangsadinata/go-multimap?branch=master&service=github) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jwangsadinata/go-multimap/blob/master/LICENSE)
 
 # Go-Multimap
 
@@ -11,10 +11,12 @@ associated with and returned for a given key.
 Current implementation only supports slice-based multimap, but an implementation 
 for set-based multimap will also be implemented soon.
 
-This package was heavily inspired by the Google Guava interface of MultiMap.
+This package was heavily inspired by the Google Guava interface of MultiMap and 
+written in the style of the [container](https://golang.org/pkg/container/) package.
+
 
 References: 
-[Wikipedia](https://en.wikipedia.org/wiki/Multimap)
+[Wikipedia](https://en.wikipedia.org/wiki/Multimap), 
 [Guava](https://google.github.io/guava/releases/19.0/api/docs/com/google/common/collect/Multimap.html)
 
 ## Installation ##
