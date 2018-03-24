@@ -1,7 +1,4 @@
 language: go
-notifications:
-  email:
-    - jwangsadinata@gmail.com
 os:
   - linux
   - osx
