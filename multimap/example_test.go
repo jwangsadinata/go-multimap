@@ -1,0 +1,287 @@
+package multimap_test
+
+import (
+	"fmt"
+	"sort"
+
+	"github.com/jwangsadinata/go-multimap/multimap"
+)
+
+// The following examples is to demonstrate basic usage of MultiMap.
+func Example_Clear() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Clear the current map.
+	m.Clear() // empty
+
+	// Verify that it is empty.
+	fmt.Printf("%v\n", m.Empty())
+	fmt.Printf("%v\n", m.Size())
+
+	// Output:
+	// true
+	// 0
+}
+
+func Example_Contains() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Check whether the multimap contains a certain key/value pair.
+	found := m.Contains(1, "a") // true
+	fmt.Printf("%v\n", found)
+
+	found = m.Contains(1, "b") // false
+	fmt.Printf("%v\n", found)
+
+	found = m.Contains(2, "b") // true
+	fmt.Printf("%v\n", found)
+
+	// Output:
+	// true
+	// false
+	// true
+}
+
+func Example_ContainsKey() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Check whether the multimap contains a certain key.
+	found := m.ContainsKey(1) // true
+	fmt.Printf("%v\n", found)
+
+	found = m.ContainsKey(2) // true
+	fmt.Printf("%v\n", found)
+
+	found = m.ContainsKey(3) // true
+	fmt.Printf("%v\n", found)
+
+	// Output:
+	// true
+	// true
+	// false
+}
+
+func Example_ContainsValue() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Check whether the multimap contains a certain value.
+	found := m.ContainsValue("a") // true
+	fmt.Printf("%v\n", found)
+
+	found = m.ContainsValue("b") // true
+	fmt.Printf("%v\n", found)
+
+	found = m.ContainsValue("c") // true
+	fmt.Printf("%v\n", found)
+
+	// Output:
+	// true
+	// true
+	// false
+}
+
+func Example_Get() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Retrieve values from the map.
+	value, found := m.Get(1) // {a, x}, true
+	fmt.Printf("%v, %v\n", value, found)
+
+	value, found = m.Get(2) // {b}, true
+	fmt.Printf("%v, %v\n", value, found)
+
+	value, found = m.Get(3) // nil, false
+	fmt.Printf("%v, %v\n", value, found)
+
+	// Output:
+	// [x a], true
+	// [b], true
+	// [], false
+}
+
+func Example_Put() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Verify that the map has the right size.
+	fmt.Println(m.Size())
+
+	// Output:
+	// 3
+}
+
+func Example_Entries() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Retrieve all the keys in the map.
+	_ = m.Entries() // {1,a}, {1,x}, {2,b} (random order)
+
+	// Output:
+}
+
+func Example_Keys() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Retrieve all the keys in the multimap.
+	keys := m.Keys() // 1, 1, 2 (random order)
+
+	// Workaround for test output consistency.
+	tmp := make([]int, len(keys))
+	count := 0
+	for _, key := range keys {
+		tmp[count] = key.(int)
+		count++
+	}
+	sort.Ints(tmp)
+	fmt.Printf("%v\n", tmp)
+
+	// Output:
+	// [1 1 2]
+}
+
+func Example_KeySet() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Retrieve all the distinct keys in the multimap.
+	keys := m.KeySet() // 1, 2  (random order)
+
+	// Workaround for test output consistency.
+	tmp := make([]int, len(keys))
+	count := 0
+	for _, key := range keys {
+		tmp[count] = key.(int)
+		count++
+	}
+	sort.Ints(tmp)
+	fmt.Printf("%v\n", tmp)
+
+	// Output:
+	// [1 2]
+}
+
+func Example_Values() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Retrieve all the keys in the map.
+	values := m.Values() // a, b, x  (random order)
+
+	// Workaround for test output consistency.
+	tmp := make([]string, len(values))
+	count := 0
+	for _, value := range values {
+		tmp[count] = value.(string)
+		count++
+	}
+	sort.Strings(tmp)
+	fmt.Printf("%v\n", tmp)
+
+	// Output:
+	// [a b x]
+}
+
+func Example_Remove() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Remove a key/value pair from the multimap.
+	m.Remove(2, "b")
+
+	// Verify that the map has less number of key/value pair.
+	fmt.Println(m.Size()) // 2
+
+	// Also, verify that there are no more (2, "b") key/value pair.
+	value, found := m.Get(2)
+	fmt.Printf("%v, %v", value, found) // nil, false
+
+	// Output:
+	// 2
+	// [], false
+}
+
+func Example_RemoveAll() {
+	// Create a new multimap
+	m := multimap.New() // empty
+
+	// Put some contents to the multimap.
+	m.Put(1, "x") // 1->x
+	m.Put(2, "b") // 1->x, 2->b
+	m.Put(1, "a") // 1->a, 1->x, 2->b
+
+	// Remove a key/value pair from the multimap.
+	m.RemoveAll(1)
+
+	// Verify that the map has less number of key/value pair.
+	fmt.Println(m.Size()) // 1
+
+	// Also, verify that there are no more values with key 1.
+	value, found := m.Get(1)
+	fmt.Printf("%v, %v", value, found) // nil, false
+
+	// Output:
+	// 1
+	// [], false
+}
