@@ -23,7 +23,7 @@ References:
 
 Install the package via the following:
 
-    go get -u github.com/jwangsadinata/go-multimap
+    go get -u github.com/jwangsadinata/go-multimap/multimap
 
 ## Usage ##
 
