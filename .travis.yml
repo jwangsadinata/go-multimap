@@ -10,8 +10,3 @@ go:
   - 1.9
   - 1.10
   - tip
-before_install:
-  - go get github.com/mattn/goveralls
-script:
-  - go test -v -coverprofile=coverage.out
-  - goveralls -service=travis-ci -coverprofile=coverage.out
