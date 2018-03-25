@@ -1,8 +1,10 @@
-package multimap
+package setmultimap
 
 import (
 	"fmt"
 	"testing"
+
+	multimap "github.com/jwangsadinata/go-multimap"
 )
 
 func TestClear(t *testing.T) {
@@ -14,6 +16,7 @@ func TestClear(t *testing.T) {
 	m.Put(4, "d")
 	m.Put(1, "x")
 	m.Put(2, "b")
+	m.Put(1, "a")
 	m.Put(1, "a")
 
 	if actualValue := m.Size(); actualValue != 8 {
@@ -42,6 +45,7 @@ func TestPut(t *testing.T) {
 	m.Put(1, "x")
 	m.Put(2, "b")
 	m.Put(1, "a")
+	m.Put(6, "f")
 
 	if actualValue := m.Size(); actualValue != 8 {
 		t.Errorf("expected %v, got %v", 8, actualValue)
@@ -56,42 +60,15 @@ func TestPut(t *testing.T) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
 	}
 
-	var expectedValue = []struct {
-		Key   interface{}
-		Value interface{}
-	}{
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{1, "a"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{1, "x"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{2, "b"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{3, "c"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{4, "d"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{5, "e"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{6, "f"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{7, "g"},
+	var expectedValue = []multimap.Entry{
+		multimap.Entry{Key: 1, Value: "a"},
+		multimap.Entry{Key: 1, Value: "x"},
+		multimap.Entry{Key: 2, Value: "b"},
+		multimap.Entry{Key: 3, Value: "c"},
+		multimap.Entry{Key: 4, Value: "d"},
+		multimap.Entry{Key: 5, Value: "e"},
+		multimap.Entry{Key: 6, Value: "f"},
+		multimap.Entry{Key: 7, Value: "g"},
 	}
 	if actualValue := m.Entries(); !sameEntries(actualValue, expectedValue) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
@@ -141,34 +118,13 @@ func TestPutAll(t *testing.T) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
 	}
 
-	var expectedValue = []struct {
-		Key   interface{}
-		Value interface{}
-	}{
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{1, "a"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{1, "x"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{1, "y"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{2, "b"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{3, "c"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{4, "d"},
+	var expectedValue = []multimap.Entry{
+		multimap.Entry{Key: 1, Value: "a"},
+		multimap.Entry{Key: 1, Value: "x"},
+		multimap.Entry{Key: 1, Value: "y"},
+		multimap.Entry{Key: 2, Value: "b"},
+		multimap.Entry{Key: 3, Value: "c"},
+		multimap.Entry{Key: 4, Value: "d"},
 	}
 	if actualValue := m.Entries(); !sameEntries(actualValue, expectedValue) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
@@ -255,30 +211,12 @@ func TestRemove(t *testing.T) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
 	}
 
-	var expectedValue = []struct {
-		Key   interface{}
-		Value interface{}
-	}{
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{1, "a"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{1, "x"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{2, "b"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{3, "c"},
-		struct {
-			Key   interface{}
-			Value interface{}
-		}{4, "d"},
+	var expectedValue = []multimap.Entry{
+		multimap.Entry{Key: 1, Value: "a"},
+		multimap.Entry{Key: 1, Value: "x"},
+		multimap.Entry{Key: 2, Value: "b"},
+		multimap.Entry{Key: 3, Value: "c"},
+		multimap.Entry{Key: 4, Value: "d"},
 	}
 	if actualValue := m.Entries(); !sameEntries(actualValue, expectedValue) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
@@ -421,13 +359,7 @@ func sameElements(a []interface{}, b []interface{}) bool {
 }
 
 // Helper function to check equality of entries.
-func sameEntries(a []struct {
-	Key   interface{}
-	Value interface{}
-}, b []struct {
-	Key   interface{}
-	Value interface{}
-}) bool {
+func sameEntries(a []multimap.Entry, b []multimap.Entry) bool {
 	if len(a) != len(b) {
 		return false
 	}

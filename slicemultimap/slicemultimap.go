@@ -1,23 +1,23 @@
-// Package multimap implements a slice based multimap.
+// Package slicemultimap implements a multimap backed by go's native slice.
 //
-// Multimap is a collection that maps keys to values, similar to map.
-// However, each key may be associated with multiple values.
+// A slicemultimap is a multimap that can hold duplicate key-value pairs
+// and that maintains the insertion ordering of values for a given key.
 //
-// You can visualize the contents of a multimap either as a map from keys to nonempty collections of values:
-//    - a --> 1, 2
-//    - b --> 3
-// ... or a single "flattened" collection of key-value pairs.
-//    - a --> 1
-//    - a --> 2
-//    - b --> 3
+// This multimap is typically known as ListMultimap in other languages.
 //
-// Elements are unordered in the map.
+// Elements are unordered in the map
 //
 // Structure is not thread safe.
 //
-package multimap
+package slicemultimap
 
-// MultiMap holds the elements in go's native map
+import multimap "github.com/jwangsadinata/go-multimap"
+
+func assertMultiMapImplementation() {
+	var _ multimap.MultiMap = (*MultiMap)(nil)
+}
+
+// MultiMap holds the elements in go's native map.
 type MultiMap struct {
 	m map[interface{}][]interface{}
 }
@@ -110,8 +110,8 @@ func (m *MultiMap) Empty() bool {
 // Size returns number of key-value pairs in the multimap.
 func (m *MultiMap) Size() int {
 	size := 0
-	for _, values := range m.m {
-		size += len(values)
+	for _, value := range m.m {
+		size += len(value)
 	}
 	return size
 }
@@ -121,8 +121,8 @@ func (m *MultiMap) Size() int {
 func (m *MultiMap) Keys() []interface{} {
 	keys := make([]interface{}, m.Size())
 	count := 0
-	for key, values := range m.m {
-		for range values {
+	for key, value := range m.m {
+		for range value {
 			keys[count] = key
 			count++
 		}
@@ -156,26 +156,17 @@ func (m *MultiMap) Values() []interface{} {
 }
 
 // Entries view collection of all key-value pairs contained in this multimap.
-// The return type is a slice of interface{}, which will be a struct of key/value instances.
+// The return type is a slice of multimap.Entry instances.
 // Retrieving the key and value from the entries result will be as trivial as:
 //   - var entry = m.Entries()[0]
 //   - var key = entry.Key
 //   - var value = entry.Value
-func (m *MultiMap) Entries() []struct {
-	Key   interface{}
-	Value interface{}
-} {
-	entries := make([]struct {
-		Key   interface{}
-		Value interface{}
-	}, m.Size())
+func (m *MultiMap) Entries() []multimap.Entry {
+	entries := make([]multimap.Entry, m.Size())
 	count := 0
 	for key, values := range m.m {
 		for _, value := range values {
-			entries[count] = struct {
-				Key   interface{}
-				Value interface{}
-			}{key, value}
+			entries[count] = multimap.Entry{Key: key, Value: value}
 			count++
 		}
 	}

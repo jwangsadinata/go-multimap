@@ -2,14 +2,21 @@
 
 # Go-Multimap
 
-Implementation of the `multimap` data structure in [Go](https://www.golang.org/project/).
+This is the missing `multimap` collection for the [Go](https://www.golang.org/project/) language.
 
 A multimap (sometimes also multihash or multidict) is a generalization of a map 
 or associative array abstract data type in which more than one value may be 
 associated with and returned for a given key. 
 
-Current implementation only supports slice-based multimap, but an implementation 
-for set-based multimap will also be implemented soon.
+Some use cases and examples for this data type includes:
+- The index of a book may report any number of references for a given index term, 
+and thus may be coded as a multimap from index terms to any number of reference locations or pages.
+- Address location, such as ZIP code, that maps to any number of people living in that area.
+
+There are two different multimap implementations, `slicemultimap` and `setmultimap`, which has slices and sets 
+as the map values respectively. `slicemultimap` is useful when duplicate key/value pairs is allowed and 
+insertion ordering is important. On the other hand, `setmultimap` is suitable when duplicates of key/value 
+pairs are not allowed.
 
 This package was heavily inspired by the Google Guava interface of MultiMap and 
 written in the style of the [container](https://golang.org/pkg/container/) package.
@@ -23,7 +30,7 @@ References:
 
 Install the package via the following:
 
-    go get -u github.com/jwangsadinata/go-multimap/multimap
+    go get -u github.com/jwangsadinata/go-multimap
 
 ## Usage ##
 
@@ -35,56 +42,57 @@ package main
 import (
 	"fmt"
 
-	"github.com/jwangsadinata/go-multimap/multimap"
+	"github.com/jwangsadinata/go-multimap/slicemultimap"
 )
 
 func main() {
-	m := multimap.New()
-	m.Put(3, "c")
-	m.Put(4, "d")
-	m.Put(1, "x")
-	m.Put(2, "b")
-	m.Put(1, "a")
+	usPresidents := []struct {
+		firstName  string
+		middleName string
+		lastName   string
+		termStart  int
+		termEnd    int
+	}{
+		{"George", "", "Washington", 1789, 1797},
+		{"John", "", "Adams", 1797, 1801},
+		{"Thomas", "", "Jefferson", 1801, 1809},
+		{"James", "", "Madison", 1809, 1817},
+		{"James", "", "Monroe", 1817, 1825},
+		{"John", "Quincy", "Adams", 1825, 1829},
+		{"John", "", "Tyler", 1841, 1845},
+		{"James", "", "Polk", 1845, 1849},
+		{"Grover", "", "Cleveland", 1885, 1889},
+		{"Benjamin", "", "Harrison", 1889, 1893},
+		{"Grover", "", "Cleveland", 1893, 1897},
+		{"George", "Herbert Walker", "Bush", 1989, 1993},
+		{"George", "Walker", "Bush", 2001, 2009},
+		{"Barack", "Hussein", "Obama", 2009, 2017},
+	}
 
-	fmt.Printf("All Entries: %v\n", m.Entries())
-	fmt.Printf("All Keys: %v\n", m.Keys())
-	fmt.Printf("Distinct Keys: %v\n", m.KeySet())
-	fmt.Printf("All Values: %v\n\n", m.Values())
+	m := slicemultimap.New()
 
-	value, _ := m.Get(1)
-	fmt.Printf("The values with key 1 is: %v\n\n", value)
+	for _, president := range usPresidents {
+		m.Put(president.firstName, president.lastName)
+	}
 
-	m.Remove(4, "d")
-	m.RemoveAll(1)
-
-	fmt.Printf("Current size of multimap after deletion: %v\n\n", m.Size())
-
-	fmt.Printf("Assert that (2, \"b\") is in the map: %v\n", m.Contains(2, "b"))
-	fmt.Printf("Assert that there is a key 4 in the map: %v\n", m.ContainsKey(4))
-	fmt.Printf("Assert that the value \"c\" is in the map: %v\n", m.ContainsValue("c"))
-
-	m.Clear()
-	fmt.Printf("Assert that multimap is empty: %v\n", m.Empty())
+	for _, firstName := range m.KeySet() {
+		lastNames, _ := m.Get(firstName)
+		fmt.Printf("%v: %v\n", firstName, lastNames)
+	}
 }
 ```
 
 Example output:
 ```sh
 $ go run example.go
-All Entries: [{3 c} {4 d} {1 x} {1 a} {2 b}]
-All Keys: [1 1 2 3 4]
-Distinct Keys: [2 3 4 1]
-All Values: [c d x a b]
-
-The values with key 1 is: [x a]
-
-Current size of multimap after deletion: 2
-
-Assert that (2, "b") is in the map: true
-Assert that there is a key 4 in the map: false
-Assert that the value "c" is in the map: true
-Assert that multimap is empty: true
+George: [Washington Bush Bush]
+John: [Adams Adams Tyler]
+Thomas: [Jefferson]
+James: [Madison Monroe Polk]
+Grover: [Cleveland Cleveland]
+Benjamin: [Harrison]
+Barack: [Obama]
 ```
 
 Please see [the GoDoc API page](http://godoc.org/github.com/jwangsadinata/go-multimap) for a
-full API listing.
+full API listing. For more examples, please consult `example_test.go` file located in each subpackages.

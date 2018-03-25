@@ -1,17 +1,17 @@
-package multimap_test
+package setmultimap_test
 
 import (
 	"fmt"
 	"sort"
 	"strings"
 
-	"github.com/jwangsadinata/go-multimap/multimap"
+	"github.com/jwangsadinata/go-multimap/setmultimap"
 )
 
 // The following examples is to demonstrate basic usage of MultiMap.
 func Example_Clear() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -32,7 +32,7 @@ func Example_Clear() {
 
 func Example_Contains() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -57,7 +57,7 @@ func Example_Contains() {
 
 func Example_ContainsKey() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -82,7 +82,7 @@ func Example_ContainsKey() {
 
 func Example_ContainsValue() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -107,7 +107,7 @@ func Example_ContainsValue() {
 
 func Example_Get() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -115,24 +115,33 @@ func Example_Get() {
 	m.Put(1, "a") // 1->a, 1->x, 2->b
 
 	// Retrieve values from the map.
-	value, found := m.Get(1) // {a, x}, true
+	value, found := m.Get(3) // nil, false
 	fmt.Printf("%v, %v\n", value, found)
 
 	value, found = m.Get(2) // {b}, true
 	fmt.Printf("%v, %v\n", value, found)
 
-	value, found = m.Get(3) // nil, false
-	fmt.Printf("%v, %v\n", value, found)
+	value, found = m.Get(1) // {a, x}, true (random order)
+
+	// Workaround for test output consistency:
+	tmp := make([]string, len(value))
+	count := 0
+	for _, s := range value {
+		tmp[count] = s.(string)
+		count++
+	}
+	sort.Strings(tmp)
+	fmt.Printf("%v, %v\n", tmp, found)
 
 	// Output:
-	// [x a], true
-	// [b], true
 	// [], false
+	// [b], true
+	// [a x], true
 }
 
 func Example_Put() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -148,7 +157,7 @@ func Example_Put() {
 
 func Example_Entries() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -180,7 +189,7 @@ func Example_Entries() {
 
 func Example_Keys() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -206,7 +215,7 @@ func Example_Keys() {
 
 func Example_KeySet() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -232,7 +241,7 @@ func Example_KeySet() {
 
 func Example_Values() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -258,7 +267,7 @@ func Example_Values() {
 
 func Example_Remove() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
@@ -282,7 +291,7 @@ func Example_Remove() {
 
 func Example_RemoveAll() {
 	// Create a new multimap
-	m := multimap.New() // empty
+	m := setmultimap.New() // empty
 
 	// Put some contents to the multimap.
 	m.Put(1, "x") // 1->x
