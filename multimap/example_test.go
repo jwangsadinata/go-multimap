@@ -3,6 +3,7 @@ package multimap_test
 import (
 	"fmt"
 	"sort"
+	"strings"
 
 	"github.com/jwangsadinata/go-multimap/multimap"
 )
@@ -155,9 +156,26 @@ func Example_Entries() {
 	m.Put(1, "a") // 1->a, 1->x, 2->b
 
 	// Retrieve all the keys in the map.
-	_ = m.Entries() // {1,a}, {1,x}, {2,b} (random order)
+	entries := m.Entries() // {1,a}, {1,x}, {2,b} (random order)
+
+	// Workaround for test output consistency.
+	tmp := make([]struct {
+		Key   int
+		Value string
+	}, len(entries))
+	count := 0
+	for _, e := range entries {
+		tmp[count] = struct {
+			Key   int
+			Value string
+		}{e.Key.(int), e.Value.(string)}
+		count++
+	}
+	sort.Sort(byKeyThenValue(tmp))
+	fmt.Printf("%v\n", tmp)
 
 	// Output:
+	// [{1 a} {1 x} {2 b}]
 }
 
 func Example_Keys() {
@@ -284,4 +302,22 @@ func Example_RemoveAll() {
 	// Output:
 	// 1
 	// [], false
+}
+
+// Helper for sorting entries.
+type byKeyThenValue []struct {
+	Key   int
+	Value string
+}
+
+func (a byKeyThenValue) Len() int      { return len(a) }
+func (a byKeyThenValue) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a byKeyThenValue) Less(i, j int) bool {
+	if a[i].Key < a[j].Key {
+		return true
+	} else if a[i].Key > a[j].Key {
+		return false
+	} else {
+		return strings.Compare(a[i].Value, a[j].Value) < 0
+	}
 }

@@ -159,16 +159,22 @@ func (m *MultiMap) Values() []interface{} {
 // The return type is a slice of interface{}, which will be a struct of key/value instances.
 // Retrieving the key and value from the entries result will be as trivial as:
 //   - var entry = m.Entries()[0]
-//   - var key = entry.key
-//   - var value = entry.value
-func (m *MultiMap) Entries() []interface{} {
-	entries := make([]interface{}, m.Size())
+//   - var key = entry.Key
+//   - var value = entry.Value
+func (m *MultiMap) Entries() []struct {
+	Key   interface{}
+	Value interface{}
+} {
+	entries := make([]struct {
+		Key   interface{}
+		Value interface{}
+	}, m.Size())
 	count := 0
 	for key, values := range m.m {
 		for _, value := range values {
 			entries[count] = struct {
-				key   interface{}
-				value interface{}
+				Key   interface{}
+				Value interface{}
 			}{key, value}
 			count++
 		}

@@ -56,41 +56,44 @@ func TestPut(t *testing.T) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
 	}
 
-	var expectedValue = []interface{}{
+	var expectedValue = []struct {
+		Key   interface{}
+		Value interface{}
+	}{
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{1, "a"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{1, "x"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{2, "b"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{3, "c"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{4, "d"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{5, "e"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{6, "f"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{7, "g"},
 	}
-	if actualValue := m.Entries(); !sameElements(actualValue, expectedValue) {
+	if actualValue := m.Entries(); !sameEntries(actualValue, expectedValue) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
 	}
 
@@ -138,33 +141,36 @@ func TestPutAll(t *testing.T) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
 	}
 
-	var expectedValue = []interface{}{
+	var expectedValue = []struct {
+		Key   interface{}
+		Value interface{}
+	}{
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{1, "a"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{1, "x"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{1, "y"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{2, "b"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{3, "c"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{4, "d"},
 	}
-	if actualValue := m.Entries(); !sameElements(actualValue, expectedValue) {
+	if actualValue := m.Entries(); !sameEntries(actualValue, expectedValue) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
 	}
 
@@ -249,29 +255,32 @@ func TestRemove(t *testing.T) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
 	}
 
-	var expectedValue = []interface{}{
+	var expectedValue = []struct {
+		Key   interface{}
+		Value interface{}
+	}{
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{1, "a"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{1, "x"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{2, "b"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{3, "c"},
 		struct {
-			key   interface{}
-			value interface{}
+			Key   interface{}
+			Value interface{}
 		}{4, "d"},
 	}
-	if actualValue := m.Entries(); !sameElements(actualValue, expectedValue) {
+	if actualValue := m.Entries(); !sameEntries(actualValue, expectedValue) {
 		t.Errorf("expected %v, got %v", expectedValue, actualValue)
 	}
 
@@ -391,7 +400,7 @@ func TestRemoveAll(t *testing.T) {
 	}
 }
 
-// Helper function to check equality of keys/values/entries.
+// Helper function to check equality of keys/values.
 func sameElements(a []interface{}, b []interface{}) bool {
 	if len(a) != len(b) {
 		return false
@@ -400,6 +409,32 @@ func sameElements(a []interface{}, b []interface{}) bool {
 		found := false
 		for _, bv := range b {
 			if av == bv {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return false
+		}
+	}
+	return true
+}
+
+// Helper function to check equality of entries.
+func sameEntries(a []struct {
+	Key   interface{}
+	Value interface{}
+}, b []struct {
+	Key   interface{}
+	Value interface{}
+}) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for _, av := range a {
+		found := false
+		for _, bv := range b {
+			if av.Key == bv.Key && av.Value == bv.Value {
 				found = true
 				break
 			}
