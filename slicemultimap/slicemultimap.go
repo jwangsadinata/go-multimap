@@ -5,17 +5,13 @@
 //
 // This multimap is typically known as ListMultimap in other languages.
 //
-// Elements are unordered in the map
+// Elements are unordered in the map.
 //
 // Structure is not thread safe.
 //
 package slicemultimap
 
 import multimap "github.com/jwangsadinata/go-multimap"
-
-func assertMultiMapImplementation() {
-	var _ multimap.MultiMap = (*MultiMap)(nil)
-}
 
 // MultiMap holds the elements in go's native map.
 type MultiMap struct {

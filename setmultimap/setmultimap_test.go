@@ -7,6 +7,10 @@ import (
 	multimap "github.com/jwangsadinata/go-multimap"
 )
 
+func AssertMultiMapImplementation(t *testing.T) {
+	var _ multimap.MultiMap = New()
+}
+
 func TestClear(t *testing.T) {
 	m := New()
 	m.Put(5, "e")

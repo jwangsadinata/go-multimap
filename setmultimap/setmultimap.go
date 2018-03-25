@@ -11,10 +11,6 @@ package setmultimap
 
 import multimap "github.com/jwangsadinata/go-multimap"
 
-func assertMultiMapImplementation() {
-	var _ multimap.MultiMap = (*MultiMap)(nil)
-}
-
 var exists = struct{}{}
 
 // Set represents a set object
