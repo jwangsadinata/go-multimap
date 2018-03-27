@@ -381,3 +381,260 @@ func sameEntries(a []multimap.Entry, b []multimap.Entry) bool {
 	}
 	return true
 }
+
+// Utilities for Benchmarking
+func benchmarkGet(b *testing.B, m *MultiMap, size int) {
+	for i := 0; i < b.N; i++ {
+		for n := 0; n < size; n++ {
+			m.Get(n)
+		}
+	}
+}
+
+func benchmarkPut(b *testing.B, m *MultiMap, size int) {
+	for i := 0; i < b.N; i++ {
+		for n := 0; n < size; n++ {
+			m.Put(n, struct{}{})
+		}
+	}
+}
+
+func benchmarkPutAll(b *testing.B, m *MultiMap, size int) {
+	v := make([]interface{}, 0)
+	v = append(v, struct{}{})
+	for i := 0; i < b.N; i++ {
+		for n := 0; n < size; n++ {
+			m.PutAll(n, v)
+		}
+	}
+}
+
+func benchmarkRemove(b *testing.B, m *MultiMap, size int) {
+	for i := 0; i < b.N; i++ {
+		for n := 0; n < size; n++ {
+			m.Remove(n, struct{}{})
+		}
+	}
+}
+
+func benchmarkRemoveAll(b *testing.B, m *MultiMap, size int) {
+	for i := 0; i < b.N; i++ {
+		for n := 0; n < size; n++ {
+			m.RemoveAll(n)
+		}
+	}
+}
+
+func BenchmarkMultiMapGet100(b *testing.B) {
+	b.StopTimer()
+	size := 100
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkGet(b, m, size)
+}
+
+func BenchmarkMultiMapGet1000(b *testing.B) {
+	b.StopTimer()
+	size := 1000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkGet(b, m, size)
+}
+
+func BenchmarkMultiMapGet10000(b *testing.B) {
+	b.StopTimer()
+	size := 10000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkGet(b, m, size)
+}
+
+func BenchmarkMultiMapGet100000(b *testing.B) {
+	b.StopTimer()
+	size := 100000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkGet(b, m, size)
+}
+
+func BenchmarkMultiMapPut100(b *testing.B) {
+	b.StopTimer()
+	size := 100
+	m := New()
+	b.StartTimer()
+	benchmarkPut(b, m, size)
+}
+
+func BenchmarkMultiMapPut1000(b *testing.B) {
+	b.StopTimer()
+	size := 1000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkPut(b, m, size)
+}
+
+func BenchmarkMultiMapPut10000(b *testing.B) {
+	b.StopTimer()
+	size := 10000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkPut(b, m, size)
+}
+
+func BenchmarkMultiMapPut100000(b *testing.B) {
+	b.StopTimer()
+	size := 100000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkPut(b, m, size)
+}
+
+func BenchmarkMultiMapPutAll100(b *testing.B) {
+	b.StopTimer()
+	size := 100
+	m := New()
+	b.StartTimer()
+	benchmarkPutAll(b, m, size)
+}
+
+func BenchmarkMultiMapPutAll1000(b *testing.B) {
+	b.StopTimer()
+	size := 1000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkPutAll(b, m, size)
+}
+
+func BenchmarkMultiMapPutAll10000(b *testing.B) {
+	b.StopTimer()
+	size := 10000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkPutAll(b, m, size)
+}
+
+func BenchmarkMultiMapPutAll100000(b *testing.B) {
+	b.StopTimer()
+	size := 100000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkPutAll(b, m, size)
+}
+
+func BenchmarkMultiMapRemove100(b *testing.B) {
+	b.StopTimer()
+	size := 100
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkRemove(b, m, size)
+}
+
+func BenchmarkMultiMapRemove1000(b *testing.B) {
+	b.StopTimer()
+	size := 1000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkRemove(b, m, size)
+}
+
+func BenchmarkMultiMapRemove10000(b *testing.B) {
+	b.StopTimer()
+	size := 10000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkRemove(b, m, size)
+}
+
+func BenchmarkMultiMapRemove100000(b *testing.B) {
+	b.StopTimer()
+	size := 100000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkRemove(b, m, size)
+}
+
+func BenchmarkMultiMapRemoveAll100(b *testing.B) {
+	b.StopTimer()
+	size := 100
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkRemoveAll(b, m, size)
+}
+
+func BenchmarkMultiMapRemoveAll1000(b *testing.B) {
+	b.StopTimer()
+	size := 1000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkRemoveAll(b, m, size)
+}
+
+func BenchmarkMultiMapRemoveAll10000(b *testing.B) {
+	b.StopTimer()
+	size := 10000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkRemoveAll(b, m, size)
+}
+
+func BenchmarkMultiMapRemoveAll100000(b *testing.B) {
+	b.StopTimer()
+	size := 100000
+	m := New()
+	for n := 0; n < size; n++ {
+		m.Put(n, struct{}{})
+	}
+	b.StartTimer()
+	benchmarkRemoveAll(b, m, size)
+}

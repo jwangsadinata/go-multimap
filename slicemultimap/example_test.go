@@ -9,7 +9,7 @@ import (
 )
 
 // The following examples is to demonstrate basic usage of MultiMap.
-func Example_Clear() {
+func Clear() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -30,7 +30,7 @@ func Example_Clear() {
 	// 0
 }
 
-func Example_Contains() {
+func Contains() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -55,7 +55,7 @@ func Example_Contains() {
 	// true
 }
 
-func Example_ContainsKey() {
+func ContainsKey() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -80,7 +80,7 @@ func Example_ContainsKey() {
 	// false
 }
 
-func Example_ContainsValue() {
+func ContainsValue() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -105,7 +105,7 @@ func Example_ContainsValue() {
 	// false
 }
 
-func Example_Get() {
+func Get() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -139,7 +139,7 @@ func Example_Get() {
 	// [a x], true
 }
 
-func Example_Put() {
+func Put() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -155,7 +155,7 @@ func Example_Put() {
 	// 3
 }
 
-func Example_Entries() {
+func Entries() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -187,7 +187,7 @@ func Example_Entries() {
 	// [{1 a} {1 x} {2 b}]
 }
 
-func Example_Keys() {
+func Keys() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -213,7 +213,7 @@ func Example_Keys() {
 	// [1 1 2]
 }
 
-func Example_KeySet() {
+func KeySet() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -239,7 +239,7 @@ func Example_KeySet() {
 	// [1 2]
 }
 
-func Example_Values() {
+func Values() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -265,7 +265,7 @@ func Example_Values() {
 	// [a b x]
 }
 
-func Example_Remove() {
+func Remove() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
@@ -289,7 +289,7 @@ func Example_Remove() {
 	// [], false
 }
 
-func Example_RemoveAll() {
+func RemoveAll() {
 	// Create a new multimap
 	m := slicemultimap.New() // empty
 
