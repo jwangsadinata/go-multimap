@@ -9,7 +9,7 @@ import (
 )
 
 // The following examples is to demonstrate basic usage of MultiMap.
-func Clear() {
+func ExampleMultiMap_Clear() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -30,7 +30,7 @@ func Clear() {
 	// 0
 }
 
-func Contains() {
+func ExampleMultiMap_Contains() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -55,7 +55,7 @@ func Contains() {
 	// true
 }
 
-func ContainsKey() {
+func ExampleMultiMap_ContainsKey() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -80,7 +80,7 @@ func ContainsKey() {
 	// false
 }
 
-func ContainsValue() {
+func ExampleMultiMap_ContainsValue() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -105,7 +105,7 @@ func ContainsValue() {
 	// false
 }
 
-func Get() {
+func ExampleMultiMap_Get() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -139,7 +139,7 @@ func Get() {
 	// [a x], true
 }
 
-func Put() {
+func ExampleMultiMap_Put() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -155,7 +155,7 @@ func Put() {
 	// 3
 }
 
-func Entries() {
+func ExampleMultiMap_Entries() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -187,7 +187,7 @@ func Entries() {
 	// [{1 a} {1 x} {2 b}]
 }
 
-func Keys() {
+func ExampleMultiMap_Keys() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -213,7 +213,7 @@ func Keys() {
 	// [1 1 2]
 }
 
-func KeySet() {
+func ExampleMultiMap_KeySet() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -239,7 +239,7 @@ func KeySet() {
 	// [1 2]
 }
 
-func Values() {
+func ExampleMultiMap_Values() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -265,7 +265,7 @@ func Values() {
 	// [a b x]
 }
 
-func Remove() {
+func ExampleMultiMap_Remove() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
@@ -289,7 +289,7 @@ func Remove() {
 	// [], false
 }
 
-func RemoveAll() {
+func ExampleMultiMap_RemoveAll() {
 	// Create a new multimap
 	m := setmultimap.New() // empty
 
