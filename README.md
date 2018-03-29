@@ -94,5 +94,8 @@ Benjamin: [Harrison]
 Barack: [Obama]
 ```
 
+## Benchmarks ##
+// TODO
+
 Please see [the GoDoc API page](http://godoc.org/github.com/jwangsadinata/go-multimap) for a
 full API listing. For more examples, please consult `example_test.go` file located in each subpackages.
