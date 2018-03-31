@@ -95,7 +95,13 @@ Barack: [Obama]
 ```
 
 ## Benchmarks ##
-// TODO
+To see the benchmark, run the following on each of the sub-packages:
+
+`go test -run=NO_TEST -bench . -benchmem  -benchtime 1s ./...`
+
+<p align="center"><img src="https://user-images.githubusercontent.com/13155377/38164450-3e916478-352f-11e8-8a4b-be10f60df4f9.png" /></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/13155377/38164452-435d48aa-352f-11e8-8a70-7a54f41b1610.png" /></p>
+
 
 Please see [the GoDoc API page](http://godoc.org/github.com/jwangsadinata/go-multimap) for a
 full API listing. For more examples, please consult `example_test.go` file located in each subpackages.
