@@ -33,13 +33,7 @@ func (m *MultiMap) Get(key interface{}) (values []interface{}, found bool) {
 
 // Put stores a key-value pair in this multimap.
 func (m *MultiMap) Put(key interface{}, value interface{}) {
-	values, found := m.m[key]
-	if found {
-		m.m[key] = append(values, value)
-	} else {
-		values := make([]interface{}, 0)
-		m.m[key] = append(values, value)
-	}
+	m.m[key] = append(m.m[key], value)
 }
 
 // PutAll stores a key-value pair in this multimap for each of the values, all using the same key key.
