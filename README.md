@@ -2,7 +2,7 @@
 
 # Go-Multimap
 
-This is the missing `multimap` collection for the [Go](https://www.golang.org/project/) language.
+This is the missing `multimap` collection for the [Go](https://www.golang.org/project/) language (also a simple practice in creating a proper library/package).
 
 A multimap (sometimes also multihash or multidict) is a generalization of a map 
 or associative array abstract data type in which more than one value may be 
