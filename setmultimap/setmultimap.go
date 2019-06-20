@@ -45,7 +45,6 @@ func (m *MultiMap) Put(key interface{}, value interface{}) {
 	set, found := m.m[key]
 	if found {
 		set[value] = exists
-		m.m[key] = set
 	} else {
 		set = make(Set)
 		set[value] = exists
